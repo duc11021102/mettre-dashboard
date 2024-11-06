@@ -30,7 +30,9 @@ const Link = styled(NavLink)`
 
   /* This works because react-router places the active class on the active NavLink */
   /* Active */
-  &:hover,
+  &:hover {
+    background-color: var(--color-grey-200);
+  }
   &:active,
   &.active:link,
   &.active:visited {
@@ -46,7 +48,8 @@ const Link = styled(NavLink)`
     transition: all 0.3s;
   }
 
-  &:hover svg,
+  &:hover svg {
+  }
   &:active svg,
   &.active:link svg,
   &.active:visited svg {
