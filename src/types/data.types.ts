@@ -13,6 +13,9 @@ export interface IModal {
   children: React.ReactNode;
   onClose: () => void;
 }
+export interface ICreateCabinForm {
+  onClose: () => void;
+}
 
 // export interface IFormCabin {
 //   id?: number;

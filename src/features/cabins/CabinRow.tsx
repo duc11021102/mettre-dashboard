@@ -60,17 +60,23 @@ const CabinRow = ({ cabin }: Props) => {
 
   const queryClient = useQueryClient();
 
-  const { isPending: isLoading, mutate } = useMutation({
+  const { isPending: isLoading, mutateAsync } = useMutation({
     mutationFn: (id: number) => deleteCabin(id),
     onSuccess: () => {
-      toast.success("Cabin successfully deleted!!!");
       queryClient.invalidateQueries({
         queryKey: ["cabins"],
       });
     },
-    onError: (err) => toast.error(err.message),
   });
 
+  const onDelete = (id: number) => {
+    // mutate(data);
+    toast.promise(mutateAsync(id), {
+      loading: "Deleting...",
+      success: <b>Cabin deleted successfully!</b>,
+      error: (err) => <b>{err.message}</b>,
+    });
+  };
   return (
     <TableRow role="row">
       <Img src={image} />
@@ -82,15 +88,14 @@ const CabinRow = ({ cabin }: Props) => {
       ) : (
         <span>&mdash;</span>
       )}
-      {!isLoading && (
-        <Button
-          size="small"
-          variation="secondary"
-          onClick={() => cabinId !== undefined && mutate(cabinId)}
-        >
-          Delete
-        </Button>
-      )}
+      <Button
+        disabled={isLoading}
+        size="small"
+        variation="secondary"
+        onClick={() => cabinId !== undefined && onDelete(cabinId)}
+      >
+        Delete
+      </Button>
     </TableRow>
   );
 };

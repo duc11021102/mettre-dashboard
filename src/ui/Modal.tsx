@@ -12,7 +12,7 @@ const StyledModal = styled.div`
   box-shadow: var(--shadow-lg);
   padding: 3.2rem 6rem;
   transition: all 0.5s;
-  animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  animation: scaleUp 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
 
   @keyframes scaleUp {
     0% {
@@ -37,7 +37,7 @@ const Overlay = styled.div`
   z-index: 1000;
   transition: all 0.5s;
   transform: scale(1);
-  animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1) forwards;
+  animation: fadeIn 0.5s cubic-bezier(0.165, 0.84, 0.44, 1);
   @keyframes fadeIn {
     0% {
       backdrop-filter: blur(0px);

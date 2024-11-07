@@ -6,6 +6,11 @@ import FileInput from "../../ui/FileInput";
 import Textarea from "../../ui/Textarea";
 import { useForm } from "react-hook-form";
 import { ICabin } from "../../types/data.types";
+import { useMutation } from "@tanstack/react-query";
+import { createCabin } from "../../services/apiCabins";
+import { useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { ICreateCabinForm } from "../../types/data.types";
 const FormRow = styled.div`
   display: grid;
   align-items: center;
@@ -42,16 +47,30 @@ const Label = styled.label`
 //   color: var(--color-red-700);
 // `;
 
-function CreateCabinForm() {
-  const {
-    register,
-    handleSubmit,
-    // formState: { errors },
-  } = useForm<ICabin>();
+function CreateCabinForm({ onClose }: ICreateCabinForm) {
+  //state
+  const queryClient = useQueryClient(); //query client
+  // validate input
+  const { register, handleSubmit, reset } = useForm<ICabin>();
 
+  // create mutation  for creating new cabin  and loading status
+  const { mutateAsync, isPending: isCreating } = useMutation({
+    mutationFn: createCabin,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ["cabins"] });
+      onClose();
+      reset();
+    },
+  });
+
+  // send request to server
   const onSubmit = (data: ICabin) => {
-    // Send data to the server
-    console.log("Form submitted:", data);
+    // mutate(data);
+    toast.promise(mutateAsync(data), {
+      loading: "Creating...",
+      success: <b>New cabin successfully created!</b>,
+      error: (err) => <b>{err.message}</b>,
+    });
   };
   return (
     <Form onSubmit={handleSubmit(onSubmit)}>
@@ -95,12 +114,17 @@ function CreateCabinForm() {
       </FormRow>
 
       <FormRow>
-        {/* type is an HTML attribute! */}
-        <Button size="medium" variation="secondary" type="reset">
+        <Button
+          disabled={isCreating}
+          onClick={onClose}
+          size="medium"
+          variation="secondary"
+          type="reset"
+        >
           Cancel
         </Button>
-        <Button size="medium" variation="green">
-          Edit cabin
+        <Button disabled={isCreating} size="medium" variation="green">
+          Create
         </Button>
       </FormRow>
     </Form>

@@ -9,7 +9,6 @@ function Cabins() {
   const [isFormAddCabinOpen, setIsFormAddCabinOpen] = useState(false);
 
   const handleOpenFormAddCabin = () => {
-    console.log("12");
     setIsFormAddCabinOpen(true);
   };
   return (
@@ -20,13 +19,17 @@ function Cabins() {
       </Row>
 
       <Row>
-        <CabinTable />
-        <Button onClick={handleOpenFormAddCabin} size="large" variation="green">
+        <Button
+          onClick={handleOpenFormAddCabin}
+          size="medium"
+          variation="green"
+        >
           Add Cabin
         </Button>
+        <CabinTable />
         {isFormAddCabinOpen && (
           <Modal onClose={() => setIsFormAddCabinOpen(false)}>
-            <CreateCabinForm />
+            <CreateCabinForm onClose={() => setIsFormAddCabinOpen(false)} />
           </Modal>
         )}
       </Row>

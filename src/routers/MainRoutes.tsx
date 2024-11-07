@@ -45,7 +45,7 @@ const MainRoutes = () => {
         </Routes>
       </BrowserRouter>
       <Toaster
-        position="top-center"
+        position="top-right"
         gutter={12}
         containerStyle={{ margin: "8px" }}
         toastOptions={{
@@ -66,9 +66,9 @@ const MainRoutes = () => {
           },
 
           style: {
-            fontSize: "16px",
+            fontSize: "12px",
             maxWidth: "500px",
-            padding: "16px 24px",
+            padding: "12px 20px",
             fontWeight: 500,
           },
         }}
